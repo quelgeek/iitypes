@@ -1,8 +1,7 @@
 # iitypes
 
-iitypes is a package to facilitate the marshalling of Ingres data into Python
-applications to facilitate development using Actian Ingres and its related
-products.
+iitypes is a package to marshall Actian Ingres and Vector data into Python
+applications.
 
 ## Installation
 
