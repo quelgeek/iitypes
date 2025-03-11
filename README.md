@@ -5,7 +5,7 @@ applications.
 
 ## Installation
 
-Use pip [pip](https://pip.pypa.io/en/stable/) to install **iitypes**.
+Use [pip](https://pip.pypa.io/en/stable/) to install **iitypes**.
 
 ```bash
 pip install iitypes
