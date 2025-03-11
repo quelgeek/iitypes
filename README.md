@@ -18,7 +18,7 @@ pip install iitypes
 To make use of the "classic" Ingres data types:
 
 ```python
-import iitypes.classic as ii
+import iitypes as ii
 ```
 
 To exploit all the standard Ingres data types, excluding the geospatial types:
