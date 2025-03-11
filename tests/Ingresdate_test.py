@@ -4,9 +4,14 @@ import iitypes as ii
 import datetime
 
 def test_envHandle_set():
-    with pytest.raises(RuntimeError) as e:
-        i = ii.Ingresdate('01-jan-1960')
-    assert str(e.value) == '_envHandle not set; call publish_envHandle()'    
+    ##  Suppress this test if the envHandle is set (by some previous test)
+    envHandle = ii.get_envHandle()
+    if envHandle:
+        assert True
+    else:
+        with pytest.raises(RuntimeError) as e:
+            i = ii.Ingresdate('01-jan-1960')
+        assert str(e.value) == '_envHandle not set; call publish_envHandle()'    
 
 def test_of_date_repr():
     ii.publish_envHandle()
