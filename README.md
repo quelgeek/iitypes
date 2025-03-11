@@ -21,7 +21,7 @@ To make use of the "classic" Ingres data types:
 import iitypes as ii
 ```
 
-To exploit all the standard Ingres data types, excluding the geospatial types:
+To exploit all the standard Ingres data types (excluding the geospatial types):
 
 ```python
 import iitypes.standard as ii
