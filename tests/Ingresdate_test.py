@@ -1,6 +1,6 @@
 import pytest
 import pyngres as py
-import iitypes.classic as ii
+import iitypes as ii
 import datetime
 
 def test_envHandle_set():
