@@ -1,12 +1,11 @@
 # iitypes
 
-iitypes is a package to facilitate the marshalling of Ingres data into Python
-applications to facilitate development using Actian Ingres and its related
-products.
+**iitypes** is a package to marshall Actian **Ingres** and **Vector** data into Python
+applications.
 
 ## Installation
 
-Use pip [pip](https://pip.pypa.io/en/stable/) to install Ingres.
+Use [pip](https://pip.pypa.io/en/stable/) to install **iitypes**.
 
 ```bash
 pip install iitypes
@@ -24,7 +23,7 @@ import iitypes.classic as ii
 
 To exploit all the standard Ingres data types, excluding the geospatial types:
 
-```
+```python
 import iitypes.standard as ii
 ```
 
@@ -47,3 +46,4 @@ Please make sure to update tests as appropriate.
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
+

@@ -97,12 +97,57 @@ def format(src, dst):
     if fdp.fd_status >= py.IIAPI_ST_ERROR:
         raise ValueError('type conversion failed')
 
-#CURRENT_DATE
-#CURRENT_TIME
-#CURRENT_TIMESTAMP
-#LOCAL_TIME
-#LOCAL_TIMESTAMP
-#TIMESTAMP_UNIX
+
+def CURRENT_DATE():
+    '''return ANSI formatted date (taken from the machine executing this)'''
+
+    current_date = dt.date.today().strftime('%Y-%m-%d')
+    return current_date
+
+
+def CURRENT_TIME():
+    '''return ANSI formatted time (taken from the machine executing this)'''
+
+    ##  timezone-aware
+    now = dt.datetime.now().astimezone()
+    current_time = now.strftime('%H:%m:%S.%f%:z')
+    return current_time
+
+
+def CURRENT_TIMESTAMP():
+    '''return ANSI formatted timestamp (taken from the machine executing this)'''
+
+    ##  timezone-aware
+    current_date = CURRENT_DATE()
+    current_time = CURRENT_TIME()
+    current_timestamp = current_date + ' ' + current_time
+    return current_timestamp
+
+
+def LOCAL_TIME():
+    '''return ANSI formatted time (taken from the machine executing this)'''
+
+    ##  timezone-naive
+    now = dt.datetime.now()
+    current_time = now.strftime('%H:%m:%S.%f')
+    return current_time
+
+
+def LOCAL_TIMESTAMP():
+    '''return ANSI formatted timestamp (taken from the machine executing this)'''
+
+    ##  timezone-naive
+    current_date = LOCAL_DATE()
+    current_time = LOCAL_TIME()
+    current_timestamp = current_date + ' ' + current_time
+    return current_timestamp
+
+
+def TIMESTAMP_UNIX():
+    '''return Unix ticks (taken from the machine executing this)'''
+
+    ticks = int(dt.datetime.now(dt.UTC).timestamp())
+    return ticks
 
 
 ##  -----------------------------  IIAPI_TYPE  ---------------------------------
