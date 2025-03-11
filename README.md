@@ -36,6 +36,21 @@ is your installation identifier (usually **II**). Example:
 
 **Windows:** your Ingres installation will usually be initialized already.
 
+## Notes
+
+The **iitypes** containers are hashable and hence may be used as dictionary keys or
+as members of a set.
+
+The IIAPI_LBYTE_TYPE, IIAPI_LVCH_TYPE, IIAPI_LBYTE_TYPE, and IIAPI_LNVCH_TYPE
+containers are not supported. When a query could return a BLOb, set
+```
+qyp.qy_flags = py.IIAPI_QF_LOCATORS
+```
+in the **IIapi_query()** parameter block and 
+expect to receive BLOb locator (IIAPI_LBLOC_TYPE, IIAPI_LCLOC_TYPE, or
+IIAPI_LNLOC_TYPE) instead.
+
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first
