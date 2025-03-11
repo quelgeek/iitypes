@@ -23,7 +23,7 @@ import iitypes.classic as ii
 
 To exploit all the standard Ingres data types, excluding the geospatial types:
 
-```
+```python
 import iitypes.standard as ii
 ```
 
