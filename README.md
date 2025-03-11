@@ -1,11 +1,11 @@
 # iitypes
 
-iitypes is a package to marshall Actian Ingres and Vector data into Python
+**iitypes** is a package to marshall Actian **Ingres** and **Vector** data into Python
 applications.
 
 ## Installation
 
-Use pip [pip](https://pip.pypa.io/en/stable/) to install Ingres.
+Use pip [pip](https://pip.pypa.io/en/stable/) to install **iitypes**.
 
 ```bash
 pip install iitypes
