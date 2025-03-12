@@ -1,6 +1,6 @@
 # iitypes
 
-**iitypes** is a package to marshall Actian **Ingres** and **Vector** data between Python
+**iitypes** is a package to marshal Actian **Ingres** and **Vector** data between Python
 and the Actian DBMS.
 
 ## Installation
