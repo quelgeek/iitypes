@@ -110,7 +110,12 @@ def CURRENT_TIME():
 
     ##  timezone-aware
     now = dt.datetime.now().astimezone()
-    current_time = now.strftime('%H:%m:%S.%f%:z')
+    current_time = now.strftime('%H:%m:%S.%f')
+    ##  we claim to support Python 3.8, which does not support the %:z format
+    ##  so construct the timezone "by hand"
+    timezone = now.strftime('%z')
+    timezone = timezone[:3] + ':' + timezone[3:]
+    current_time = current_time + timezone
     return current_time
 
 
