@@ -129,18 +129,18 @@ def LOCAL_TIME():
 
     ##  timezone-naive
     now = dt.datetime.now()
-    current_time = now.strftime('%H:%m:%S.%f')
-    return current_time
+    local_time = now.strftime('%H:%m:%S.%f')
+    return local_time
 
 
 def LOCAL_TIMESTAMP():
     '''return ANSI formatted timestamp (taken from the machine executing this)'''
 
     ##  timezone-naive
-    current_date = LOCAL_DATE()
-    current_time = LOCAL_TIME()
-    current_timestamp = current_date + ' ' + current_time
-    return current_timestamp
+    current_date = CURRENT_DATE()
+    local_time = LOCAL_TIME()
+    local_timestamp = current_date + ' ' + local_time
+    return local_timestamp
 
 
 def TIMESTAMP_UNIX():
@@ -554,15 +554,15 @@ class IIAPI_DATE_TYPE(IIAPI_TYPE_WITH_INTRINSIC_SIZE):
     def _value_setter(self,v):
         '''initialize the Ingres ANSIDATE instance'''
 
-        if v.lower() == 'today':
-            v = CURRENT_DATE()
-        elif v is CURRENT_DATE:
+        if v is CURRENT_DATE:
             v = CURRENT_DATE()
 
         if type(v) not in {dt.date, str}:
             raise TypeError('must be CURRENT_DATE, a str, or a datetime.date')
 
         if type(v) is str:
+            if v.lower() == 'today':
+                v = CURRENT_DATE()
             v = dt.date.fromisoformat(v)            
 
         self._buffer.fields.year = v.year
@@ -2268,13 +2268,18 @@ class IIAPI_TIME_TYPE(IIAPI_TYPE_WITH_RESOLUTION):
         ##  on the IIapi_formatData() function to convert to the 
         ##  internal Ingres form
 
-        if type(v) is dt.time:
+        if v is LOCAL_TIME:
+            v = LOCAL_TIME()
+        elif type(v) is dt.time:
             ##  datetime.time must be naive (no tzinfo)
             if v.tzinfo:
                 raise ValueError('tzinfo not allowed')
             v = v.isoformat()
         elif type(v) is not str:
-            raise TypeError('must be str or datetime.time')
+            raise TypeError('must be LOCAL_TIME, or a str or datetime.time')
+
+        if v.lower() == 'now':
+            v = LOCAL_TIME()
 
         self._conv_source.value = v
         format(self._conv_source,self)
@@ -2300,12 +2305,17 @@ class IIAPI_TMTZ_TYPE(IIAPI_TIME_TYPE):
     def _value_setter(self,v):
         '''initialize the Ingres TIME WITH LOCAL TIME ZONE instance'''
 
+        ##  unlike the other time types, we do not allow the string 'now'
+        ##  nor LOCAL_TIME as a value because they are not timezone-aware
+
         ##  Because it is not clear how Ingres expects
         ##  dn_tzhour and dn_tzminute to be set to account for DST we rely 
         ##  on the IIapi_formatData() function to convert to the 
         ##  internal Ingres form
 
-        if type(v) is dt.time:
+        if v is CURRENT_TIME:
+            v = CURRENT_TIME()
+        elif type(v) is dt.time:
             v = v.isoformat()
         elif type(v) is not str:
             raise TypeError('must be str or datetime.time')
@@ -2407,13 +2417,18 @@ class IIAPI_TS_TYPE(IIAPI_TYPE_WITH_RESOLUTION):
         ##  on the IIapi_formatData() function to convert to the 
         ##  internal Ingres form
 
-        if type(v) is dt.datetime:
+        if v is LOCAL_TIMESTAMP:
+            v = LOCAL_TIMESTAMP()
+        elif type(v) is dt.datetime:
             ##  datetime.time must be naive (no tzinfo)
             if v.tzinfo:
                 raise ValueError('tzinfo not allowed')
             v = v.isoformat()
         elif type(v) is not str:
-            raise TypeError('must be str or datetime.datetime')
+            raise TypeError('must be LOCAL_TIMESTAMP, or a str or datetime.datetime')
+
+        if v.lower() == 'now':
+            v = LOCAL_TIMESTAMP()
 
         self._conv_source.value = v
         format(self._conv_source,self)
@@ -2468,11 +2483,16 @@ class IIAPI_TSTZ_TYPE(IIAPI_TS_TYPE):
     def _value_setter(self,v):
         '''initialize the Ingres TIMESTAMP WITH TIME ZONE instance'''
 
+        ##  we do not allow LOCAL_TIMESTAMP as a value because it 
+        ##  not timezone-aware
+
         ##  Because it is not clear how Ingres expects
         ##  dn_tzhour and dn_tzminute to be set to account for DST we rely 
         ##  on the IIapi_formatData() function to convert to the 
         ##  internal Ingres form
 
+        if v is CURRENT_TIMESTAMP:
+            v = CURRENT_TIMESTAMP()
         if type(v) is dt.datetime:
             v = v.isoformat()
         elif type(v) is not str:
