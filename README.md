@@ -1,7 +1,7 @@
 # iitypes
 
-**iitypes** is a package to marshall Actian **Ingres** and **Vector** data into Python
-applications.
+**iitypes** is a package to marshall Actian **Ingres** and **Vector** data between Python
+and the Actian DBMS.
 
 ## Installation
 
@@ -25,7 +25,7 @@ To exploit all the standard Ingres data types (excluding the geospatial types):
 import iitypes.standard as ii
 ```
 
-**Linux:** initialize your Ingres environment by executing **~/.ing**XX**sh**, where XX
+**Linux/Darwin:** initialize your Ingres environment by executing **~/.ing**XX**sh**, where XX
 is your installation identifier (usually **II**). Example:
 
 ```
@@ -42,12 +42,12 @@ as members of a set.
 The IIAPI_LBYTE_TYPE, IIAPI_LVCH_TYPE, IIAPI_LBYTE_TYPE, and IIAPI_LNVCH_TYPE
 containers are not supported. Use locator containers instead. When a query
 could return 
-a large object, configure the **IIapi_query()** parameter block to return a
-locator:
+a large object, configure the **IIapi_query()** parameter block to return 
+locators:
 ```
 qyp.qy_flags = py.IIAPI_QF_LOCATORS
 ```
-The query will return one of IIAPI_LBLOC_TYPE, IIAPI_LCLOC_TYPE, or
+The query will return one or more of IIAPI_LBLOC_TYPE, IIAPI_LCLOC_TYPE, or
 IIAPI_LNLOC_TYPE. (Refer to the OpenAPI documentation for information about
 fetching objects using these locators.)
 
