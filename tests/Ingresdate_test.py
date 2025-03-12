@@ -23,17 +23,15 @@ def test_of_str_value_instantiation():
     i = ii.Ingresdate('11-jan-1960')
     assert i.value == datetime.date(1960,1,11)
     
-def test_of_today_instantiation():
+def test_of_TODAY_instantiation():
     ii.publish_envHandle()  
     i = ii.Ingresdate('today')
-    ##  if that didn't raise a ValueError it is a pass
-    assert True
+    assert type(i.value) is datetime.date
     
-def test_of_now_insantiation():
+def test_of_NOW_insantiation():
     ii.publish_envHandle()  
     i = ii.Ingresdate('now')
-    ##  if that didn't raise a ValueError it is a pass
-    assert True
+    assert type(i.value) is datetime.datetime
     
 def test_of_formatted_display():
     ii.publish_envHandle()  

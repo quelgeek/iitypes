@@ -37,6 +37,14 @@ def test_of_str_value_instantiation_intermediate_precision():
     i = ii.Time('06:54:32.123',2)
     assert i.formatted() == '06:54:32.12'
 
+def test_of_LOCAL_TIME_instantiation():
+    i = ii.Time(ii.LOCAL_TIME)
+    assert type(i.value) is datetime.time
+
+def test_of_NOW_instantiation():
+    i = ii.Time('now')
+    assert type(i.value) is datetime.time
+
 def test_of_time_value_instantiation():
     interval = datetime.time.fromisoformat('06:54:32.123')
     i = ii.Time(interval,3)
@@ -97,7 +105,7 @@ def test_of_instantiation_to_NULL_with_WITHNULL():
 def test_of_domain_checking():
     with pytest.raises(TypeError) as e:
         i = ii.Time(3.14)
-    assert str(e.value) == 'must be str or datetime.time'
+    assert str(e.value) == 'must be LOCAL_TIME, or a str or datetime.time'
 
 def test_of_isoformat_checking():
     with pytest.raises(ValueError) as e:

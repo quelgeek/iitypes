@@ -28,6 +28,14 @@ def test_of_str_value_assignment():
     i.value = '1984-06-16'
     assert i.value == datetime.date(1984,6,16)
 
+def test_of_CURRENT_DATE_value_assignment():
+    i = ii.ANSIdate(ii.CURRENT_DATE)
+    assert type(i.value) is datetime.date
+
+def test_of_TODAY_value_assignment():
+    i = ii.ANSIdate('TODAY')
+    assert type(i.value) is datetime.date
+
 def test_of_date_value_assignment():
     i = ii.ANSIdate('1960-01-11')
     i.value = datetime.date(1984,6,16)
@@ -61,7 +69,7 @@ def test_of_instantiation_to_NULL_with_WITHNULL():
 def test_of_domain_checking():
     with pytest.raises(TypeError) as e:
         i = ii.ANSIdate(3.14)
-    assert str(e.value) == 'must be str or datetime.date'
+    assert str(e.value) == 'must be CURRENT_DATE, a str, or a datetime.date'
 
 def test_of_isoformat_checking():
     with pytest.raises(ValueError) as e:

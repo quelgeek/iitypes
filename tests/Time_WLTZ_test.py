@@ -39,6 +39,14 @@ def test_of_str_value_instantiation_intermediate_precision():
     i = ii.Time_WLTZ('06:54:32.123',2)
     assert i.formatted() == '06:54:32.12'
 
+def test_of_LOCAL_TIME_instantiation():
+    i = ii.Time_WLTZ(ii.LOCAL_TIME)
+    assert type(i.value) is datetime.time
+
+def test_of_NOW_instantiation():
+    i = ii.Time_WLTZ('now')
+    assert type(i.value) is datetime.time
+
 def test_of_time_value_instantiation():
     set_timezone('UNITED-KINGDOM')
     interval = datetime.time.fromisoformat('06:54:32.123')
@@ -109,7 +117,7 @@ def test_of_domain_checking():
     set_timezone('GMT')
     with pytest.raises(TypeError) as e:
         i = ii.Time_WLTZ(3.14)
-    assert str(e.value) == 'must be str or datetime.time'
+    assert str(e.value) == 'must be LOCAL_TIME, or a str or datetime.time'
 
 def test_of_isoformat_checking():
     set_timezone('GMT')

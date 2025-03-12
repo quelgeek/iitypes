@@ -43,6 +43,14 @@ def test_of_str_value_instantiation_intermediate_precision():
     i = ii.Timestamp_WTZ('2024-06-21 06:54:32.123',2)
     assert i.formatted() == '2024-06-21 06:54:32.12-07:00'
 
+def test_of_CURRENT_TIMESTAMP_instantiation():
+    i = ii.Timestamp_WTZ(ii.CURRENT_TIMESTAMP)
+    assert type(i.value) is datetime.datetime
+
+def test_of_NOW_instantiation():
+    i = ii.Timestamp_WTZ('now')
+    assert type(i.value) is datetime.datetime
+
 def test_of_time_value_instantiation():
     set_timezone('UNITED-KINGDOM')
     time_of_day = datetime.datetime.fromisoformat('2024-06-21 06:54:32.123+04:00')

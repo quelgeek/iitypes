@@ -42,6 +42,15 @@ def test_of_str_value_instantiation_intermediate_precision():
     i = ii.Time_WTZ('06:54:32.123',2)
     assert i.formatted() == '06:54:32.12+01:00'
 
+def test_of_CURRENT_TIME_instantiation():
+    i = ii.Time_WTZ(ii.CURRENT_TIME)
+    assert type(i.value) is datetime.time
+
+def test_of_NOW_disallowed():
+    with pytest.raises(ValueError) as e:
+        i = ii.Time_WTZ('now')
+    assert str(e.value) == 'type conversion failed'
+
 def test_of_time_value_instantiation():
     set_timezone('UNITED-KINGDOM')
     time_of_day = datetime.time.fromisoformat('06:54:32.123+04:00')

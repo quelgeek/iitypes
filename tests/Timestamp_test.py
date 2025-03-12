@@ -37,6 +37,14 @@ def test_of_str_value_instantiation_intermediate_precision():
     i = ii.Timestamp('2024-06-21 06:54:32.123',2)
     assert i.formatted() == '2024-06-21 06:54:32.12'
 
+def test_of_LOCAL_TIMESTAMP_instantiation():
+    i = ii.Timestamp(ii.LOCAL_TIMESTAMP)
+    assert type(i.value) is datetime.datetime
+
+def test_of_NOW_instantiation():
+    i = ii.Timestamp('now')
+    assert type(i.value) is datetime.datetime
+
 def test_of_Ingres_format_value_instantiation():
     i = ii.Timestamp('21-jun-2024 06:54:32.123')
     assert i.value == datetime.datetime(2024, 6, 21, 6, 54, 32, 123000)
@@ -101,7 +109,7 @@ def test_of_instantiation_to_NULL_with_WITHNULL():
 def test_of_domain_checking():
     with pytest.raises(TypeError) as e:
         i = ii.Timestamp(3.14)
-    assert str(e.value) == 'must be str or datetime.datetime'
+    assert str(e.value) == 'must be LOCAL_TIMESTAMP, or a str or datetime.datetime'
 
 def test_of_isoformat_checking():
     with pytest.raises(ValueError) as e:
