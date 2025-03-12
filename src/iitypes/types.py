@@ -554,8 +554,13 @@ class IIAPI_DATE_TYPE(IIAPI_TYPE_WITH_INTRINSIC_SIZE):
     def _value_setter(self,v):
         '''initialize the Ingres ANSIDATE instance'''
 
+        if v.lower() == 'today':
+            v = CURRENT_DATE()
+        elif v is CURRENT_DATE:
+            v = CURRENT_DATE()
+
         if type(v) not in {dt.date, str}:
-            raise TypeError('must be str or datetime.date')
+            raise TypeError('must be CURRENT_DATE, a str, or a datetime.date')
 
         if type(v) is str:
             v = dt.date.fromisoformat(v)            
