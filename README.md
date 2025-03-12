@@ -11,8 +11,6 @@ Use [pip](https://pip.pypa.io/en/stable/) to install **iitypes**.
 pip install iitypes
 ```
 
-(Note for **Conda** and **Miniconda** users: there is an as-yet undiagnosed problem that prevents **pip** from properly resolving the dependency on **loguru**. As a workaround install loguru before installing pyngres.)
-
 ## Usage
 
 To make use of the "classic" Ingres data types:
@@ -42,13 +40,19 @@ The **iitypes** containers are hashable and hence may be used as dictionary keys
 as members of a set.
 
 The IIAPI_LBYTE_TYPE, IIAPI_LVCH_TYPE, IIAPI_LBYTE_TYPE, and IIAPI_LNVCH_TYPE
-containers are not supported. When a query could return a BLOb, set
+containers are not supported. Use locator containers instead. When a query
+could return 
+a large object, configure the **IIapi_query()** parameter block to return a
+locator:
 ```
 qyp.qy_flags = py.IIAPI_QF_LOCATORS
 ```
-in the **IIapi_query()** parameter block and 
-expect to receive BLOb locator (IIAPI_LBLOC_TYPE, IIAPI_LCLOC_TYPE, or
-IIAPI_LNLOC_TYPE) instead.
+The query will return one of IIAPI_LBLOC_TYPE, IIAPI_LCLOC_TYPE, or
+IIAPI_LNLOC_TYPE. (Refer to the OpenAPI documentation for information about
+fetching objects using these locators.)
+
+Support for the geospatial types will be added in a future release. (Let us
+know if you have an imminent need for the geospatial types.)
 
 
 ## Contributing
