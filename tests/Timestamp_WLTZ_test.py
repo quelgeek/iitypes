@@ -40,6 +40,14 @@ def test_of_str_value_instantiation_intermediate_precision():
     i = ii.Timestamp_WLTZ('2024-06-21 06:54:32.123',2)
     assert i.formatted() == '2024-06-21 06:54:32.12'
 
+def test_of_LOCAL_TIME_instantiation():
+    i = ii.Timestamp_WLTZ(ii.LOCAL_TIMESTAMP)
+    assert type(i.value) is datetime.datetime
+
+def test_of_NOW_instantiation():
+    i = ii.Timestamp_WLTZ('now')
+    assert type(i.value) is datetime.datetime
+
 def test_of_Ingres_format_value_instantiation():
     set_timezone('CANADA-NEWFOUNDLAND')
     i = ii.Timestamp_WLTZ('21-jun-2024 06:54:32.123')
@@ -115,7 +123,7 @@ def test_of_domain_checking():
     set_timezone('GMT')
     with pytest.raises(TypeError) as e:
         i = ii.Timestamp_WLTZ(3.14)
-    assert str(e.value) == 'must be str or datetime.datetime'
+    assert str(e.value) == 'must be LOCAL_TIMESTAMP, or a str or datetime.datetime'
 
 def test_of_isoformat_checking():
     set_timezone('GMT')
