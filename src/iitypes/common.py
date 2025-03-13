@@ -2,5 +2,6 @@
 
 from .types import (
     NULL, NOTNULL, WITHNULL, 
-    publish_envHandle, get_envHandle, format, allocator_for_type )
+    initialize, set_envHandle, publish_envHandle, get_envHandle,
+    format, allocator_for_type )
 

@@ -30,36 +30,55 @@ class WITHNULL():
 _envHandle = None
 
 
-def publish_envHandle(in_envHandle=None):
-    '''make the OpenAPI envHandle globally available'''
+def initialize():
+    '''initialize the OpenAPI so we can invoke formatting functions'''
 
-    ##  if the caller has the in_envHandle for some reason they can 
-    ##  supply it as an argument, otherwise we will attempt to get 
-    ##  the handle using the latest OpenAPI version
-    
+    ##  this function is required only for stand-alone testing. In normal
+    ##  use the API will already be initialized and we would 
+    ##  call set_envHandle()/publish_envHandle()  
+
     global _envHandle
 
-    ##  silently ignore a change to _envHandle when it is already set
+    ##  silently ignore intialization when _envHandle is already set
     if _envHandle:
         return
     
-    if not in_envHandle:
-        ##  initialize the OpenAPI to get the in_envHandle;
-        ##  there is no way to know which level the local OpenAPI DLL
-        ##  supports, so start with the defined latest level (IIAPI_VERSION)
-        ##  and fall back a level at a time until we succeed
-        inp = py.IIAPI_INITPARM()
-        for in_version in range(py.IIAPI_VERSION, 0, -1):
-            inp.in_version = in_version
-            py.IIapi_initialize( inp )
-            if inp.in_status == py.IIAPI_ST_SUCCESS:
-                in_envHandle = inp.in_envHandle
-                break
+    ##  initialize the OpenAPI to get the in_envHandle;
+    ##  there is no way to know which level the local OpenAPI DLL
+    ##  supports, so start with the defined latest level (IIAPI_VERSION)
+    ##  and fall back a level at a time until we succeed
+    inp = py.IIAPI_INITPARM()
+    for in_version in range(py.IIAPI_VERSION, 0, -1):
+        inp.in_version = in_version
+        py.IIapi_initialize( inp )
+        if inp.in_status == py.IIAPI_ST_SUCCESS:
+            IIAPI_VERSION = inp.in_version
+            _envHandle = inp.in_envHandle
+            break
 
-    if not in_envHandle:
+    if not inp.in_envHandle:
         raise RuntimeError("can't initialize OpenAPI")
 
-    _envHandle = in_envHandle
+    return IIAPI_VERSION
+
+
+def publish_envHandle(in_envHandle=None):
+    '''make the OpenAPI envHandle globally available'''
+
+    global _envHandle
+
+    ##  silently ignore intialization when _envHandle is already set
+    if _envHandle:
+        return
+    
+    ##  set _envHandle if a value was supplied, otherwise call initialize()
+    if in_envHandle:
+        _envHandle = in_envHandle
+    else:
+        initialize()
+
+##  define an alias to improve readability (without breaking existing code)
+set_envHandle = publish_envHandle
 
 
 def get_envHandle():
@@ -2901,17 +2920,3 @@ def allocator_for_type(descriptor):
         py.IIAPI_BOXZ_TYPE: ____ }
 
     return allocator[descriptor.ds_dataType]
-
-
-## --------------------------- SQL Constants ---------------------------------
-
-# these *probably* belong in the ingres module, not iitypes...
-#USER
-#CURRENT_USER
-#SYSTEM_USER
-#INITIAL_USER
-#SESSION_USER
-#SYSDATE
-
-#if value is CURRENT_DATE:
-#    return = CURRENT_DATE()
