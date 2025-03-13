@@ -76,12 +76,6 @@ def test_LOB_locator_retrieved():
         if gcp.gc_genParm.gp_status == py.IIAPI_ST_NO_DATA:
             break
 
-# -------------------------------------------------temporary
-#        for column in row:
-#            print(column,':',row[column], '', end='')    
-#        print()
-# -------------------------------------------------temporary
-
     cnp = py.IIAPI_CANCELPARM()
     cnp.cn_stmtHandle = qyp.qy_stmtHandle
     py.IIapi_cancel(cnp)
