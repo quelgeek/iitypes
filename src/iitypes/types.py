@@ -2687,14 +2687,20 @@ class IIAPI_LOCATOR_TYPE(IIAPI_TYPE_WITH_INTRINSIC_SIZE):
             py.IIAPI_LCLOC_TYPE: '<LONG VARCHAR locator>',
             py.IIAPI_LBLOC_TYPE: '<LONG BYTE locator>',
             py.IIAPI_LNLOC_TYPE: '<LONG NVARCHAR locator>' }
+        type = self.descriptor.ds_dataType
         declaration = templates[type]
         return declaration
-
 
 
     ##  these types take no positional argument; only ever allocated using
     ##  a descriptor
     _expected_positionals = 0
+
+
+    def _reprfy_value(self):
+        locator = self._get_python_value()
+        repr = f'{locator=!s}'
+        return repr
 
 
     def _get_initial_value(self,*args):
