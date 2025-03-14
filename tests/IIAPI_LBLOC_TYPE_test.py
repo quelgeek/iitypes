@@ -61,11 +61,11 @@ def test_LOB_locator_retrieved():
         descriptor = gdp.gd_descriptor[column_index]
         clone = type(descriptor).from_buffer_copy(descriptor)
         descriptor = clone
-        Allocate_Buffer = ii.allocator_for_type(descriptor)
-        allocated_buffer = Allocate_Buffer(descriptor=descriptor)
-        columnData[column_index] = allocated_buffer.datavalue
+        buffer_allocator = ii.allocator_for_type(descriptor)
+        buffer = buffer_allocator(descriptor=descriptor)
+        columnData[column_index] = buffer.datavalue
         columnName = descriptor.ds_columnName.decode()
-        row[columnName] = allocated_buffer
+        row[columnName] = buffer
 
     gcp = py.IIAPI_GETCOLPARM()
     gcp.gc_rowCount = 1
