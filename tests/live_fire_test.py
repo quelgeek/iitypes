@@ -37,6 +37,10 @@ def test_expected_row_retrieved():
     py.IIapi_connect(cop)
     while not cop.co_genParm.gp_completed:
         py.IIapi_wait(wtp)
+    if cop.co_genParm.gp_status != py.IIAPI_ST_SUCCESS:
+        print(f'\n*** can\'t open database "{dbname}"\n')
+        assert False
+        return
 
     qyp = py.IIAPI_QUERYPARM()
     qyp.qy_connHandle = cop.co_connHandle
@@ -77,12 +81,6 @@ def test_expected_row_retrieved():
 
         if gcp.gc_genParm.gp_status == py.IIAPI_ST_NO_DATA:
             break
-
-# -------------------------------------------------temporary
-#        for column in row:
-#            print(column,':',row[column], '', end='')    
-#        print()
-# -------------------------------------------------temporary
 
     cnp = py.IIAPI_CANCELPARM()
     cnp.cn_stmtHandle = qyp.qy_stmtHandle

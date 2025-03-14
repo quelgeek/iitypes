@@ -34,6 +34,10 @@ def test_LOB_locator_retrieved():
     py.IIapi_connect(cop)
     while not cop.co_genParm.gp_completed:
         py.IIapi_wait(wtp)
+    if cop.co_genParm.gp_status != py.IIAPI_ST_SUCCESS:
+        print(f'\n*** can\'t open database "{dbname}"\n')
+        assert False
+        return
 
     qyp = py.IIAPI_QUERYPARM()
     qyp.qy_connHandle = cop.co_connHandle
