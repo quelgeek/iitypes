@@ -4,6 +4,10 @@ import iitypes.standard as ii
 import datetime
 import ctypes
 
+##  NOTE: some of these tests require IANA timezone names and will throw
+##  "RuntimeError: bad timezone name" when run using versions of the OpenAPI
+##  that pre-date IANA support. Use Ingres 11.x or later for testing
+
 ii.publish_envHandle()
 
 ##  NB default precision of TIMESTAMPs is 6
