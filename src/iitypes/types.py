@@ -2849,7 +2849,7 @@ def allocator_for_type(descriptor):
         py.IIAPI_UUID_TYPE: IIAPI_UUID_TYPE,
         py.IIAPI_VBYTE_TYPE: IIAPI_VBYTE_TYPE,
         py.IIAPI_VCH_TYPE: IIAPI_VCH_TYPE,
-        ##  -- the following are geospatial types
+        ##  -- the following are 2D, 3D, and 4D geospatial types
         py.IIAPI_GEOM_TYPE: ____,       # BLOb
         py.IIAPI_POINT_TYPE: ____,      # BLOb
         py.IIAPI_MPOINT_TYPE: ____,     # BLOb
