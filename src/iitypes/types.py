@@ -491,6 +491,7 @@ class IIAPI_TYPE_WITH_INTRINSIC_SIZE(IIAPI_TYPE):
     ##  Object_Key
     ##  Table_Key
     ##  UUID
+    ##  IIAPI_HNDL_TYPE
 
 
     ##  these types take a single positional argument (value)
@@ -508,6 +509,43 @@ class IIAPI_TYPE_WITH_INTRINSIC_SIZE(IIAPI_TYPE):
     def _get_ds_length(self,*args):
         ##  the subclass will have overridden self._ds_length so just use it
         return self._ds_length
+
+
+class IIAPI_HNDL_TYPE(IIAPI_TYPE_WITH_INTRINSIC_SIZE):
+    '''OpenAPI handle'''
+
+
+    _ds_dataType = py.IIAPI_HNDL_TYPE
+    _ds_length = ctypes.sizeof(py.II_PTR)
+
+
+    def _SQL_declaration(self):
+        return '<not an SQL type>'
+
+
+    def _allocate_buffer(self):
+        _fields_ = [('value', ctypes.c_void_p)]
+        HANDLE_BUFFER = Buffer_Factory(_fields_)
+        buffer = HANDLE_BUFFER()
+        return buffer
+
+
+    def _reprfy_value(self):
+        r = f'ctypes.c_void_p({self._buffer.value})'
+        return r
+
+
+    def _get_python_value(self):
+        v = ctypes.c_void_p(self._buffer.value)
+        return v
+
+
+    def _value_setter(self,v):
+        '''initialize the IIAPI_HNDL_TYPE instance'''
+
+        if type(v) is not ctypes.c_void_p:
+            raise TypeError('must be a ctypes.c_void_p')
+        self._buffer.value = v
 
 
 class IIAPI_DATE_TYPE(IIAPI_TYPE_WITH_INTRINSIC_SIZE):
