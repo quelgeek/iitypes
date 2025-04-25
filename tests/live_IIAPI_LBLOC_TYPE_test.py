@@ -3,6 +3,7 @@ import os
 import pyngres as py
 import iitypes.standard as ii
 import datetime
+import pytest
 
 
 try:
@@ -13,6 +14,7 @@ except KeyError:
     print('')
     raise
 
+@pytest.mark.skip(reason='this test needs specific database set-up')
 def test_LOB_locator_retrieved():
     target = dbname.encode()
     query = b'SELECT * FROM delivery WHERE ol_number = 1' 
