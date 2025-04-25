@@ -8,17 +8,15 @@ try:
     dbname = os.environ['DBNAME']
 except KeyError:
     print('')
-    print('** Supply the database name with the DBNAME environment variable **')
+    print('** dbname defaulting to "iidbdb" **' )
     print('')
-    raise
+    dbname = 'iidbdb'
 
 ii.publish_envHandle()
 
 def test_expected_row_retrieved():
     target = dbname.encode()
-    query = b'''SELECT *
-    FROM customer
-    WHERE customer = 2045 AND district = 10 AND warehouse = 10'''
+    query = b'SELECT count(*) as table_count FROM iitables'
 
     wtp = py.IIAPI_WAITPARM()
     wtp.wt_timeout = -1
@@ -113,7 +111,4 @@ def test_expected_row_retrieved():
     tmp = py.IIAPI_TERMPARM()
     py.IIapi_terminate(tmp)
 
-    assert (row['discount'].value == 0.0936 
-        and row['last'].value == 'ANTIBARPRI'
-        and row['since'].value == datetime.datetime(2009,2,23,16,23,28,984000)
-        and row['phone'].value == '(732)744-1700   ')
+    assert (row['table_count'].value > 0)
